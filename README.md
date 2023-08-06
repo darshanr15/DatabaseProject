@@ -18,8 +18,11 @@ Features of ExpressRail:
 How to Board ExpressRail:
 
 🎟️ Secure your boarding pass by initializing the ExpressRail setup process.
+
 🎟️ Punch in the coordinates to embark on a wondrous journey into the heart of the database.
+
 🎟️ Experience a first-class voyage through the intuitive and user-friendly interface.
+
 🎟️ Unveil the grand spectacle as ExpressRail orchestrates a seamless railway symphony.
 Note of Elegance:
 
