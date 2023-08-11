@@ -1,0 +1,425 @@
+DROP TABLE AVAILABILITY;
+DROP TABLE SCHEDULE;
+DROP TABLE TICKET;
+DROP TABLE TRAIN;
+DROP TABLE PASSENGER;
+DROP TABLE FARE;
+DROP TABLE STATION;
+
+
+CREATE TABLE FARE (
+    CLass VARCHAR2(10),
+    Price NUMBER(10),
+   CONSTRAINT PK_FARE PRIMARY KEY(Class));
+
+CREATE TABLE STATION (
+    Station_Id NUMBER(10),
+    Station_Name VARCHAR2(30) UNIQUE,
+    CONSTRAINT PK_STAT PRIMARY KEY(Station_Id));
+
+CREATE TABLE PASSENGER (
+      P_id VARCHAR2(10) PRIMARY KEY,
+      F_Name VARCHAR2(20) NOT NULL,
+      L_Name VARCHAR2(20) NOT NULL,
+      Gender VARCHAR2(10) NOT NULL,
+      Phone varchar(10) NOT NULL UNIQUE,
+      Age NUMBER NOT NULL);
+
+CREATE TABLE TRAIN (
+      Train_no NUMBER(5) PRIMARY KEY,
+      Name VARCHAR2(30) NOT NULL,
+      Source VARCHAR2(30) NOT NULL,
+      Dest VARCHAR2(30) NOT NULL,
+      Seat_CC NUMBER(3) NOT NULL,
+      Seat_SL NUMBER(3) NOT NULL,
+      Seat_1A NUMBER(3) NOT NULL,
+      Seat_2A NUMBER(3) NOT NULL,
+     Seat_3A NUMBER(3) NOT NULL,
+     Sunday CHAR(1) NOT NULL,
+     Monday CHAR(1) NOT NULL,
+     Tuesday CHAR(1) NOT NULL,
+     Wednesday CHAR(1) NOT NULL,
+     Thursday CHAR(1) NOT NULL,
+     Friday CHAR(1) NOT NULL,
+     Saturday CHAR(1) NOT NULL,
+     CONSTRAINT FK_SOURCE FOREIGN KEY (Source) REFERENCES STATION (Station_Name),
+     CONSTRAINT FK_DEST FOREIGN KEY (Dest) REFERENCES STATION (Station_Name));     
+
+CREATE TABLE TICKET (
+      T_no NUMBER NOT NULL,
+      Train_no NUMBER,
+      P_id VARCHAR2(10),
+      No_of_passengers NUMBER NOT NULL,
+      T_Date VARCHAR2(20) NOT NULL,
+      Seat_No VARCHAR2(10) NOT NULL,
+      Class VARCHAR2(10) NOT NULL,
+      Status VARCHAR2(20) NOT NULL,
+     CONSTRAINT PK_TICKET PRIMARY KEY (T_no, P_id),
+     CONSTRAINT FK_TICKET_TRAIN FOREIGN KEY (Train_no) REFERENCES TRAIN(Train_no),
+     CONSTRAINT FK_TICKET_PASSENGER FOREIGN KEY (P_id) REFERENCES PASSENGER(P_id),
+     CONSTRAINT FK_CLASS FOREIGN KEY (Class) REFERENCES FARE (Class));
+
+ CREATE TABLE SCHEDULE (
+      Train_no NUMBER,
+      Station_id NUMBER,
+      A_time VARCHAR(10),
+      D_time VARCHAR(10),
+      CONSTRAINT FK_SCHEDULE_STATION FOREIGN KEY (Station_id) REFERENCES STATION(Station_id),
+      CONSTRAINT PK_SCHEDULE PRIMARY KEY (Train_no, Station_id));
+
+ CREATE TABLE AVAILABILITY (
+      Train_no NUMBER,
+      Rem_CC NUMBER,
+      Rem_SL NUMBER,
+      Rem_3A NUMBER,
+      Rem_2A NUMBER,
+      Rem_1A NUMBER,
+      CONSTRAINT FK_AVAIL_TRAIN FOREIGN KEY (Train_no) REFERENCES TRAIN(Train_no));
+
+INSERT INTO FARE (Class, Price) VALUES ('CC', 685);
+INSERT INTO FARE (Class, Price) VALUES ('SL', 325);
+INSERT INTO FARE (Class, Price) VALUES ('3A', 835);
+INSERT INTO FARE (Class, Price) VALUES ('2A', 1135);
+INSERT INTO FARE (Class, Price) VALUES ('1A', 1910);
+
+
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P001', 'Aarav', 'Kumar', 'Male', '8076643210', 25);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P002', 'Aanya', 'Sharma', 'Female', '9876543211', 30);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P003', 'Advait', 'Patel', 'Male', '9876543212', 35);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P004', 'Ahana', 'Verma', 'Female', '9876543213', 28);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P005', 'Arjun', 'Gupta', 'Male', '9876543214', 32);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P006', 'Avni', 'Singh', 'Female', '9876543215', 29);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P007', 'Aryan', 'Malhotra', 'Male', '9876543216', 27);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P008', 'Ananya', 'Joshi', 'Female', '9876543217', 31);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P009', 'Ahaan', 'Shah', 'Male', '9876543218', 26);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P010', 'Anika', 'Rao', 'Female', '9876543219', 33);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P011', 'Advika', 'Bose', 'Female', '9876543220', 24);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P012', 'Arnav', 'Gupta', 'Male', '9876543221', 36);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P013', 'Ananya', 'Kapoor', 'Female', '9876543222', 30);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P014', 'Akash', 'Chopra', 'Male', '9616543223', 29);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P015', 'Aditi', 'Sharma', 'Female', '9876543224', 28);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P016', 'Aaryan', 'Nair', 'Male', '9876543225', 31);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P017', 'Amaya', 'Reddy', 'Female', '9876543226', 26);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P018', 'Aaditya', 'Agarwal', 'Male', '9876543227', 33);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P019', 'Anushka', 'Khan', 'Female', '9876543228', 25);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P020', 'Atharva', 'Das', 'Male', '7916529229', 34);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P021', 'Sneha', 'Patel', 'Female', '9898765432', 28);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P022', 'Rajesh', 'Kumar', 'Male', '8976543210', 42);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P023', 'Priya', 'Sharma', 'Female', '7890123456', 24);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P024', 'Amit', 'Verma', 'Male', '9123456789', 31);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P025', 'Deepika', 'Sinha', 'Female', '9012345678', 29);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P026', 'Vivek', 'Gupta', 'Male', '7890987654', 37);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P027', 'Neha', 'Shah', 'Female', '9876543210', 26);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P028', 'Rohit', 'Singh', 'Male', '8765432109', 32);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P029', 'Sanya', 'Malhotra', 'Female', '7654321098', 23);
+INSERT INTO PASSENGER (P_id, F_Name, L_Name, Gender, Phone, Age) VALUES ('P030', 'Kunal', 'Mehta', 'Male', '6543210987', 29);
+
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10001, 'Kanyakumari');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10002, 'Jammu Tawi');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10003, 'Lucknow Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10004, 'New Delhi');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10005, 'Hazrat Nizamuddin');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10006, 'Visakhapatnam');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10007, 'Mumbai CST');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10008, 'Pune Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10009, 'Sealdah');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10010, 'Howrah Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10011, 'Mangalore Central');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10012, 'Chennai Central');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10013, 'Puri');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10014, 'Bengaluru City');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10015, 'Jaipur Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10016, 'Jodhpur Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10017, 'Mysuru Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10018, 'Amritsar Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10019, 'Mumbai Central');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10020, 'Jaisalmer');
+
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10021, 'Secunderabad');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10022, 'Agra Cantt');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10023, 'Thiruvananthapuram Central');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10024, 'Patna Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10025, 'Rajendra Nagar Terminal');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10026, 'Madurai Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10027, 'Karur Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10028, 'Coimbatore Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10029, 'Tiruchirappalli Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10030, 'Tirunelveli Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10031, 'Salem Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10032, 'Erode Junction');
+
+INSERT INTO STATION (Station_Id, Station_Name)
+VALUES (10033, 'Chennai Tambaram');
+
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12345, 'Rajdhani Express', 'Mumbai Central', 'New Delhi', 100, 150, 20, 30, 40, 'Y', 'N', 'Y', 'N', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (23456, 'Shatabdi Express', 'Chennai Central', 'Bengaluru City', 120, 180, 25, 35, 45, 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (34567, 'Duronto Express', 'Howrah Junction', 'Puri', 80, 120, 15, 25, 35, 'N', 'N', 'Y', 'N', 'Y', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (45678, 'Gatimaan Express', 'Hazrat Nizamuddin', 'Agra Cantt', 150, 200, 30, 40, 50, 'Y', 'Y', 'N', 'N', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (56789, 'Garib Rath Express', 'Secunderabad', 'Visakhapatnam', 120, 180, 25, 35, 45, 'N', 'N', 'Y', 'N', 'Y', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (67890, 'Kerala Express', 'New Delhi', 'Thiruvananthapuram Central', 200, 250, 40, 50, 60, 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (78901, 'Rajendra Nagar Express', 'Patna Junction', 'Rajendra Nagar Terminal', 100, 150, 20, 30, 40, 'Y', 'N', 'Y', 'N', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (89012, 'Himsagar Express', 'Kanyakumari', 'Jammu Tawi', 150, 200, 30, 40, 50, 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (90123, 'Gomti Express', 'Lucknow Junction', 'New Delhi', 120, 180, 25, 35, 45, 'Y', 'N', 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (10111, 'Sampark Kranti Express', 'Jammu Tawi', 'Hazrat Nizamuddin', 100, 150, 20, 30, 40, 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (11122, 'Godavari Express', 'Visakhapatnam', 'Mumbai CST', 80, 120, 15, 25, 35, 'Y', 'N', 'Y', 'N', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12133, 'Deccan Queen', 'Pune Junction', 'Mumbai CST', 120, 180, 25, 35, 45, 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (13144, 'Hawrah Duronto Express', 'Sealdah', 'Howrah Junction', 80, 120, 15, 25, 35, 'N', 'N', 'Y', 'N', 'Y', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (14155, 'Mangalore Express', 'Mangalore Central', 'Chennai Central', 150, 200, 30, 40, 50, 'Y', 'N', 'Y', 'N', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (15166, 'Puri Express', 'Puri', 'Howrah Junction', 100, 150, 20, 30, 40, 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (16177, 'Karnataka Express', 'New Delhi', 'Bengaluru City', 120, 180, 25, 35, 45, 'N', 'N', 'Y', 'N', 'Y', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (17188, 'Jodhpur Express', 'Jaipur Junction', 'Jodhpur Junction', 100, 150, 20, 30, 40, 'Y', 'N', 'Y', 'N', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (18199, 'Kaveri Express', 'Mysuru Junction', 'Chennai Central', 120, 180, 25, 35, 45, 'N', 'Y', 'N', 'Y', 'N', 'N', 'Y');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (19210, 'Golden Temple Mail', 'Amritsar Junction', 'Mumbai CST', 80, 120, 15, 25, 35, 'Y', 'N', 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (20221, 'Chennai Express', 'Chennai Central', 'New Delhi', 150, 200, 30, 40, 50, 'N', 'Y', 'N', 'Y', 'N', 'Y', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (21232, 'Jaisalmer Express', 'Jodhpur Junction', 'Jaisalmer', 120, 180, 25, 35, 45, 'Y', 'N', 'Y', 'N', 'Y', 'N', 'N');
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12635, 'Vaigai Express', 'Madurai Junction', 'Chennai Tambaram', 200, 180, 200, 60, 40, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12637, 'Pandian Express', 'Madurai Junction', 'Chennai Central', 200, 180, 200, 60, 40, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (16178, 'Rockfort Express', 'Madurai Junction', 'Tiruchirappalli Junction', 150, 120, 120, 80, 60, 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12675, 'Kovai Express', 'Chennai Central', 'Coimbatore Junction', 250, 200, 180, 100, 80, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (12631, 'Nellai Express', 'Chennai Central', 'Tirunelveli Junction', 180, 150, 150, 80, 60, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (22153, 'Salem Express', 'Erode Junction', 'Salem Junction', 100, 80, 60, 40, 30, 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y');
+
+INSERT INTO TRAIN (Train_no, Name, Source, Dest, Seat_CC, Seat_SL, Seat_1A, Seat_2A, Seat_3A, Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+VALUES (66769, 'Karur Express', 'Madurai Junction', 'Karur Junction', 200, 180, 200, 60, 40, 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'N');
+
+
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (2856, 12635, 'P001', 2, '01-Jun-23', 'A1', 'SL', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (7461, 19210, 'P002', 1, '02-Jun-23', 'B2', 'CC', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (1029, 10111, 'P003', 4, '03-Jun-23', 'C3', '3A', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (6735, 67890, 'P004', 1, '04-Jun-23', 'D4', '2A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (9184, 23456, 'P005', 3, '05-Jun-23', 'E5', '1A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (3578, 17188, 'P006', 2, '06-Jun-23', 'F6', 'SL', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (5643, 34567, 'P007', 2, '07-Jun-23', 'G7', 'CC', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (8761, 78901, 'P008', 1, '08-Jun-23', 'H8', 'SL', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (2876, 89012, 'P009', 3, '09-Jun-23', 'I9', '2A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (9421, 45678, 'P010', 2, '10-Jun-23', 'J10', '3A', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (7532, 67890, 'P011', 1, '11-Jun-23', 'K11', '1A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (4267, 34567, 'P012', 4, '12-Jun-23', 'L12', 'SL', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (1893, 16177, 'P013', 1, '13-Jun-23', 'M13', 'CC', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (9802, 23456, 'P014', 2, '14-Jun-23', 'N14', '2A', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (7531, 12635, 'P015', 3, '15-Jun-23', 'O15', 'SL', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (3520, 90123, 'P016', 1, '16-Jun-23', 'P16', '3A', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (6438, 56789, 'P017', 2, '17-Jun-23', 'Q17', 'SL', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (8274, 78901, 'P018', 1, '18-Jun-23', 'R18', 'CC', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (1076, 78901, 'P019', 4, '19-Jun-23', 'S19', '1A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (8765, 23456, 'P020', 2, '20-Jun-23', 'T20', '2A', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (9203, 20221, 'P021', 1, '21-Jun-23', 'U21', 'SL', 'WL');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (6481, 34567, 'P022', 2, '22-Jun-23', 'V22', 'CC', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (3642, 78901, 'P023', 1, '23-Jun-23', 'W23', '3A', 'CNF');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (5890, 89012, 'P024', 3, '24-Jun-23', 'X24', 'SL', 'RAC');
+INSERT INTO TICKET (T_no, Train_no, P_id, No_of_passengers, T_Date, Seat_No, Class, Status) VALUES (2476, 45678, 'P025', 2, '25-Jun-23', 'Y25', '2A', 'RAC');
+
+
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (12345, 10001, '09:00:00', '09:10:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (23456, 10002, '21:20:00', '21:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (12133, 10003, '12:00:00', '12:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (34567, 10004, '13:30:00', '13:35:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (23456, 10005, '17:00:00', '17:10:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (87654, 10006, '16:30:00', '17:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (34567, 10007, '18:00:00', '19:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (78901, 10008, '19:30:00', '20:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (89012, 10009, '21:00:00', '22:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (45678, 10010, '22:30:00', '23:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (11122, 10011, '00:00:00', '01:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (76543, 10012, '01:30:00', '02:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (32109, 10013, '03:00:00', '04:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (16177, 10014, '04:30:00', '05:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (67890, 10015, '06:00:00', '07:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (78901, 10016, '07:30:00', '08:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (54321, 10017, '09:00:00', '10:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (98765, 10018, '10:30:00', '11:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (67890, 10019, '12:00:00', '13:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (23456, 10020, '13:30:00', '14:30:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (87654, 10021, '15:00:00', '16:00:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (12345, 10026, '08:00:00', '08:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (23456, 10027, '09:00:00', '09:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (34567, 10028, '10:00:00', '10:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (45678, 10029, '11:00:00', '11:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (56789, 10030, '13:00:00', '13:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (67890, 10011, '14:00:00', '14:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (78901, 10029, '15:00:00', '15:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (89012, 10023, '16:00:00', '16:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (90123, 10030, '17:00:00', '17:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (10111, 10023, '18:00:00', '18:05:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (11122, 10026, '08:10:00', '08:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (12133, 10027, '09:10:00', '09:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (13144, 10028, '10:10:00', '10:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (14155, 10029, '11:10:00', '11:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (15166, 10030, '13:10:00', '13:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (16177, 10031, '14:10:00', '14:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (12675, 10032, '15:10:00', '15:15:00');
+INSERT INTO SCHEDULE (Train_no, Station_id, A_time, D_time) VALUES (66769, 10027, '17:10:00', '17:15:00');
+
+
+INSERT INTO AVAILABILITY VALUES (12345,  0, 0 , 5, 4, 3);
+INSERT INTO AVAILABILITY VALUES (23456,  5,  0, 4, 3, 2);
+INSERT INTO AVAILABILITY VALUES (34567,  0,  5, 3, 2, 0);
+INSERT INTO AVAILABILITY VALUES (45678,  8,  1, 4, 3, 2);
+INSERT INTO AVAILABILITY VALUES (56789,  3,  0, 6, 5, 4);
+INSERT INTO AVAILABILITY VALUES (67890,  1,  1, 2, 2, 1);
+INSERT INTO AVAILABILITY VALUES (78901,  2,  2, 3, 3, 2);
+INSERT INTO AVAILABILITY VALUES (89012,  0,  2, 2, 1, 1);
+INSERT INTO AVAILABILITY VALUES (90123,  8,  0, 0, 2, 2);
+INSERT INTO AVAILABILITY VALUES (10111,  0,  3, 7, 6, 5);
+INSERT INTO AVAILABILITY VALUES (11122,  5,  8, 3, 2, 2);
+INSERT INTO AVAILABILITY VALUES (12133,  0,  2, 5, 4, 3);
+INSERT INTO AVAILABILITY VALUES (13144,  2,  1, 2, 2, 1);
+INSERT INTO AVAILABILITY VALUES (14155,  2,  0, 4, 3, 2);
+INSERT INTO AVAILABILITY VALUES (15166,  0,  1, 2, 1, 1);
+INSERT INTO AVAILABILITY VALUES (16177,  1,  0, 4, 2, 2);
+INSERT INTO AVAILABILITY VALUES (17188,  5,  0, 6, 5, 4);
+INSERT INTO AVAILABILITY VALUES (18199,  1,  1, 3, 2, 2);
+INSERT INTO AVAILABILITY VALUES (19210,  0,  2, 5, 4, 3);
+INSERT INTO AVAILABILITY VALUES (20221,  1,  5, 2, 2, 1);
+INSERT INTO AVAILABILITY VALUES (21232,  2,  3, 4, 3, 2);
+INSERT INTO AVAILABILITY VALUES (12635,  0,  0, 2, 1, 1);
+INSERT INTO AVAILABILITY VALUES (12637,  1,  0, 4, 2, 2);
+INSERT INTO AVAILABILITY VALUES (16178,  2,  0, 6, 5, 4);
+INSERT INTO AVAILABILITY VALUES (12675,  5,  8, 3, 2, 2);
+INSERT INTO AVAILABILITY VALUES (12631,  0,  2, 5, 4, 3);
+INSERT INTO AVAILABILITY VALUES (22153,  0,  1, 2, 2, 1);
+INSERT INTO AVAILABILITY VALUES (66769,  0,  4, 1, 0, 1);
+
+
+COMMIT;
+
+CREATE OR REPLACE PROCEDURE check_status (
+tkno IN TICKET.T_No%type, status OUT VARCHAR2 ) IS
+avail INT;
+trno TRAIN.TRAIN_NO%type;
+cls TICKET.CLASS%type;
+BEGIN
+SELECT train_no,class into trno,cls from ticket where T_No=tkno;
+IF cls='CC' THEN
+select rem_cc into avail from availability where train_no=trno;
+END IF;
+IF cls='CC' THEN
+select rem_cc into avail from availability where train_no=trno;
+END IF;
+IF cls='SL' THEN
+select rem_sl into avail from availability where train_no=trno;
+END IF;
+IF cls='3A' THEN
+select rem_3a into avail from availability where train_no=trno;
+END IF;
+IF cls='2A' THEN
+select rem_2a into avail from availability where train_no=trno;
+END IF;
+IF cls='1A' THEN
+select rem_1a into avail from availability where train_no=trno;
+END IF;
+IF avail<=0 THEN
+status:='WL';
+ELSIF avail<=3 THEN
+status:='RAC';
+ELSE
+status:='CNF';
+END IF;
+UPDATE TICKET
+SET STATUS=status WHERE T_NO=tkno;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE disp_price (inclass IN VARCHAR2  , cost OUT INT ) IS 
+BEGIN
+SELECT price into cost from FARE where class=inclass;
+END;
+/
+
